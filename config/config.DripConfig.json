@@ -1,0 +1,1 @@
+{"lifetimeMS":0,"numberOfDrips":{"minimum":0.0,"range":3.0},"size":{"minimum":5.0,"range":10.0},"lateralVelocity":{"minimum":-2.0,"range":4.0},"verticalVelocity":{"minimum":0.0,"range":4.0},"gravity":{"x":0.0,"y":0.3},"stepIntervalMS":10,"addDripIntervalMS":50,"FPS":32}
