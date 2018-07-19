@@ -4,17 +4,6 @@ import util.Vector2f;
 
 import java.awt.*;
 
-/**
- * Entity holding all the necessary to display a single "drip."
- * A drip refers to a single particle displayed on the screen.
- * Generated randomly by DripFactory.
- * 
- * @see DripInfoManager
- * @see DripFactory
- * 
- * @author Benjamin Steenhoek
- * @version 1
- */
 public class DripInfo {
     Vector2f position;
     private Vector2f velocity;
@@ -49,17 +38,11 @@ public class DripInfo {
         shouldRemove = true;
     }
 
-//region Utility
-//---------------------------------------------------------------------------------------
     private long NanosecondsToMilliseconds(long ns)
     {
         return ns / 1000000;
     }
-//---------------------------------------------------------------------------------------
-//endregion
 
-//region Getters & Setters
-//---------------------------------------------------------------------------------------
     Vector2f getVelocity()
     {
         return new Vector2f(velocity);
@@ -83,6 +66,4 @@ public class DripInfo {
     boolean shouldRemove() {
         return shouldRemove;
     }
-//---------------------------------------------------------------------------------------
-//endregion
 }

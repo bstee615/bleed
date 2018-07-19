@@ -6,12 +6,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-/**
- * Utility class to add union and garbage collection functionality to DripSet.
- * 
- * @author Benjamin Steenhoek
- * @version 1
- */
 public class DripSet extends HashSet<DripInfo> {
     private int maxElements;
 
@@ -26,17 +20,11 @@ public class DripSet extends HashSet<DripInfo> {
         this.maxElements = maxElements;
     }
 
-//region Set arithmetic
-//---------------------------------------------------------------------------------------
     public void union(Set<DripInfo> s){
         addAll(s);
         clampElements();
     }
-//---------------------------------------------------------------------------------------
-//endregion
-
-//region Garbage collection
-//---------------------------------------------------------------------------------------
+    
     private void clampElements()
     {
         if (maxElements == 0)
@@ -66,10 +54,10 @@ public class DripSet extends HashSet<DripInfo> {
         }
     }
 
+    public void setMaxElements(int maxElements) { this.maxElements = maxElements; }
+
     public int getMaxElements()
     {
         return maxElements;
     }
-//---------------------------------------------------------------------------------------
-//endregion
 }

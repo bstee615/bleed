@@ -1,22 +1,10 @@
 package Drip;
 
-import config.ConfigLoader;
-import config.DripConfig;
 import util.*;
 
 import java.awt.*;
 import java.util.HashSet;
 
-/**
- * Factory class to ease random generation of DripInfo instances.
- * Loads from DripConfig
- * 
- * @see DripConfig
- * @see DripInfo
- * 
- * @author Benjamin Steenhoek
- * @version 1
- */
 class DripFactory {
     private DoubleRange numberOfDrips;
     private DoubleRange size;
@@ -27,16 +15,13 @@ class DripFactory {
     private int lifeTimeMS;
 
     DripFactory() {
-        numberOfDrips = DripConfig.getNumberOfDrips();
-        size = DripConfig.getSize();
-        lateralVelocity = DripConfig.getLateralVelocity();
-        verticalVelocity = DripConfig.getVerticalVelocity();
-        lifeTimeMS = DripConfig.getLifetimeMS();
+        numberOfDrips = new DoubleRange(0, 10);
+        size = new DoubleRange(5, 8);
+        lateralVelocity = new DoubleRange(-4d, 8d);
+        verticalVelocity = new DoubleRange(0, 7d);
+        lifeTimeMS = 1000;
     }
 
-    /**
-     * Generates a set of new drips based on the instance variables of this factory.
-     */
     HashSet<DripInfo> generateNewDrips()
     {
         HashSet<DripInfo> newDrips = new HashSet<>();
@@ -54,23 +39,37 @@ class DripFactory {
             double lateralVelocityOfDrip = lateralVelocity.randomWithin();
             double verticalVelocityOfDrip = verticalVelocity.randomWithin();
             drip.setVelocity(drip.getVelocity().plus2f(new Vector2f(lateralVelocityOfDrip, -verticalVelocityOfDrip)));
+            newDrips.add(drip);
         }
 
         return newDrips;
     }
 
-//region Getters & Setters
-//---------------------------------------------------------------------------------------
-    void setDripPoint(Point point)
-    {
-        dripPoint = point;
+    public void setNumberOfDrips(DoubleRange numberOfDrips) {
+        this.numberOfDrips = numberOfDrips;
     }
 
-    void setGravity(Vector2f gravity)
-    {
+    public void setSize(DoubleRange size) {
+        this.size = size;
+    }
+
+    public void setLateralVelocity(DoubleRange lateralVelocity) {
+        this.lateralVelocity = lateralVelocity;
+    }
+
+    public void setVerticalVelocity(DoubleRange verticalVelocity) {
+        this.verticalVelocity = verticalVelocity;
+    }
+
+    public void setDripPoint(Point dripPoint) {
+        this.dripPoint = dripPoint;
+    }
+
+    public void setGravity(Vector2f gravity) {
         this.gravity = gravity;
     }
-//---------------------------------------------------------------------------------------
-//endregion
 
+    public void setLifeTimeMS(int lifeTimeMS) {
+        this.lifeTimeMS = lifeTimeMS;
+    }
 }

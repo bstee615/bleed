@@ -1,5 +1,7 @@
 package Drip;
 
+import input.InputManager;
+import util.DoubleRange;
 import util.DripSet;
 import util.Vector2f;
 
@@ -7,24 +9,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashSet;
 
-/**
- * Manages DripInfo creation, updating, and removal.
- * 
- * @see DripInfo
- * 
- * @author Benjamin Steenhoek
- * @version 1
- */
 class DripInfoManager {
+    private InputManager inputManager;
     private Timer addDripTimer;
     private Timer stepTimer;
     private DripSet drips;
     private DripFactory dripFactory;
     private Rectangle bounds;
 
-    DripInfoManager()
+    DripInfoManager(InputManager inputManager)
     {
-        drips = new DripSet();
+        this.inputManager = inputManager;
+        drips = new DripSet(100);
         dripFactory = new DripFactory();
     }
 
@@ -36,7 +32,7 @@ class DripInfoManager {
 
     private void stepAllDrips()
     {
-        drips.forEach(drip::stepOnce);
+        drips.forEach(DripInfo::stepOnce);
         drips.removeIf(this::shouldRemove);
     }
 
@@ -45,8 +41,6 @@ class DripInfoManager {
         return drip.shouldRemove() || drip.isOld() || drip.isOutsideBounds(bounds);
     }
 
-//region Timers
-//---------------------------------------------------------------------------------------
     void initStepTimer(int intervalMS)
     {
         stepTimer = new Timer(intervalMS, e -> stepAllDrips());
@@ -80,11 +74,7 @@ class DripInfoManager {
             addDripTimer.stop();
         }
     }
-//---------------------------------------------------------------------------------------
-//endregion
-
-//region Getters & Setters
-//---------------------------------------------------------------------------------------
+    
     void setGravity(Vector2f gravity)
     {
         dripFactory.setGravity(gravity);
@@ -103,7 +93,26 @@ class DripInfoManager {
     HashSet<DripInfo> getDrips() {
         return drips;
     }
-//---------------------------------------------------------------------------------------
-//endregion
 
+    public void setNumberOfDrips(DoubleRange numberOfDrips) {
+        dripFactory.setNumberOfDrips(numberOfDrips);
+    }
+
+    public void setSize(DoubleRange size) {
+        dripFactory.setSize(size);
+    }
+
+    public void setLateralVelocity(DoubleRange lateralVelocity) {
+        dripFactory.setLateralVelocity(lateralVelocity);
+    }
+
+    public void setVerticalVelocity(DoubleRange verticalVelocity) {
+        dripFactory.setVerticalVelocity(verticalVelocity);
+    }
+
+    public void setLifeTimeMS(int lifeTimeMS) {
+        dripFactory.setLifeTimeMS(lifeTimeMS);
+    }
+
+    public void setMaxElements(int maxElements) { drips.setMaxElements(maxElements); }
 }

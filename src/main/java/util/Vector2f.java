@@ -1,16 +1,7 @@
 package util;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.awt.*;
 
-/**
- * Utility class for 2D vectors.
- * Integrated with Swing Point class for convenience.
- * 
- * @author Benjamin Steenhoek
- * @version 1
- */
 public class Vector2f {
     private double x;
     private double y;
@@ -30,9 +21,7 @@ public class Vector2f {
     {
         this(toCopy.x, toCopy.y);
     }
-
-//region Vector arithmetic
-//---------------------------------------------------------------------------------------
+    
     public Vector2f plus2f(Vector2f that)
     {
         return new Vector2f(this.x + that.x, this.y + that.y);
@@ -42,11 +31,7 @@ public class Vector2f {
     {
         return new Vector2f(this.x - that.x, this.y - that.y);
     }
-//---------------------------------------------------------------------------------------
-//endregion
 
-//region Getters & Setters
-//---------------------------------------------------------------------------------------
     public Point asPoint()
     {
         return new Point((int)x, (int)y);
@@ -58,11 +43,8 @@ public class Vector2f {
         return String.format("(%.3f, %.3f)", x, y);
     }
 
-    @NotNull
     public static Vector2f zero()
     {
         return new Vector2f(0d, 0d);
     }
-//---------------------------------------------------------------------------------------
-//endregion
 }

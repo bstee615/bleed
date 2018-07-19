@@ -7,6 +7,7 @@ public class Main {
             @Override
             public void run() {
                 Window ex = new Window();
+                ex.pack();
                 ex.setVisible(true);
             }
         });

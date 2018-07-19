@@ -1,26 +1,27 @@
 package Drip;
 
-import config.DripConfig;
 import util.Vector2f;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ColorModel;
 
 import input.*;
 
-/**
- * @author Benjamin Steenhoek
- * @version 1
- */
 public class DripPanel extends JPanel {
+    private InputManager inputManager;
     private DripInfoManager dripInfoManager;
     private Color dripColor;
 
-    public DripPanel() {
+    public DripPanel(InputManager inputManager) {
+        super();
+        initDripPanel(inputManager);
+        setBackground(new Color(0, 0, 0, 225));
+    }
+
+    private void initDripPanel(InputManager inputManager)
+    {
+        this.inputManager = inputManager;
         addMouseListeners();
         dripColor = new Color(0, 255, 0, 75);
     }
@@ -36,8 +37,8 @@ public class DripPanel extends JPanel {
     private void updateDripManager()
     {
         dripInfoManager.setBounds(getBounds());
-        dripInfoManager.setDripPoint(InputState.getMousePosition());
-        if (InputState.getMouseDown())
+        dripInfoManager.setDripPoint(inputManager.getMousePosition());
+        if (inputManager.isMouseDown())
         {
             dripInfoManager.StartDripping();
         }
@@ -53,9 +54,7 @@ public class DripPanel extends JPanel {
         doDrawing(g);
         updateDripManager();
     }
-
-//region Drawing helpers
-//---------------------------------------------------------------------------------------
+    
     private void fillCircleAroundPoint(Graphics2D g2d, Point point, int radius) {
         int mouseX = (int)point.getX();
         int mouseY = (int)point.getY();
@@ -67,27 +66,28 @@ public class DripPanel extends JPanel {
         g2d.setColor(dripColor);
         fillCircleAroundPoint(g2d, dripInfo.position.asPoint(), (int)dripInfo.radius);
     }
-//---------------------------------------------------------------------------------------
-//endregion
 
-//region Swing initialization
-//---------------------------------------------------------------------------------------
-
-    // TODO FIX: This method must be called after the Panel is initialzed in Swing.
     public void initDripInfoManager()
     {
-        dripInfoManager = new DripInfoManager();
-        dripInfoManager.setGravity(DripConfig.getGravity());
-        dripInfoManager.initStepTimer(DripConfig.getStepIntervalMS());
-        dripInfoManager.initAddDripTimer(DripConfig.getAddDripIntervalMS());
+        dripInfoManager = new DripInfoManager(inputManager);
+        dripInfoManager.setGravity(new Vector2f(0, 0.3d));
+        dripInfoManager.initStepTimer(20);
+        dripInfoManager.initAddDripTimer(20);
         dripInfoManager.StartStepping();
     }
 
     private void addMouseListeners()
     {
-        addMouseListener(new MouseClickListener());
-        addMouseMotionListener(new MouseMoveListener());
+        addMouseListener(new MouseListener(inputManager));
+        addMouseMotionListener(new MouseListener(inputManager));
     }
-//---------------------------------------------------------------------------------------
-//endregion
+
+    public DripInfoManager getDripInfoManager() { return dripInfoManager; }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(800, 600);
+    }
+
+    void setColor(Color color) { this.dripColor = color; }
 }

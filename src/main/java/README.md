@@ -1,4 +1,4 @@
-# bleed: an extensible program for Java Swing that adds a bubbly particle effect to the mouse.
+# bleed: an extensible program for Java Swing that displays a bubbly particle effect that follows the mouse.
 
 #### Benjamin Steenhoek
 #### 6/28/2018
